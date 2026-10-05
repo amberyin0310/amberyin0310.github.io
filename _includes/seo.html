@@ -18,6 +18,7 @@
 {% assign seo_description = page.description | default: page.excerpt | default: site.description %}
 {% if seo_description %}
   {% assign seo_description = seo_description | markdownify | strip_html | strip_newlines | escape_once %}
+  <meta name="description" content="{{ seo_description }}">
 {% endif %}
 
 {% assign seo_author = page.author | default: page.author[0] | default: site.author[0] %}
@@ -35,6 +36,7 @@
 {% endif %}
 
 <meta property="og:locale" content="en">
+<meta property="og:type" content="profile">
 <meta property="og:site_name" content="{{ site.title }}">
 <meta property="og:title" content="{{ site.title }}">
 
@@ -76,5 +78,29 @@
 {% endif %}
 {% if site.baidu_site_verification %}
   <meta name="baidu-site-verification" content="{{ site.baidu_site_verification }}" />
+{% endif %}
+
+{% if site.url and site.author.name %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "url": {{ site.url | append: site.baseurl | append: "/" | jsonify }},
+  "mainEntity": {
+    "@type": "Person",
+    "@id": {{ site.url | append: site.baseurl | append: "/#person" | jsonify }},
+    "name": {{ site.author.name | jsonify }},
+    "url": {{ site.url | append: site.baseurl | append: "/" | jsonify }},
+    "image": {{ site.author.avatar | prepend: site.url | jsonify }},
+    "jobTitle": {{ site.author.bio | jsonify }},
+    "description": {{ site.description | jsonify }},
+    "email": {{ site.author.email | prepend: "mailto:" | jsonify }},
+    "affiliation": {
+      "@type": "Organization",
+      "name": {{ site.author.employer_name | jsonify }}
+    }
+  }
+}
+</script>
 {% endif %}
 <!-- end SEO -->
