@@ -1,0 +1,10 @@
+# Local dependencies, caches, and generated website output.
+/.bundle/
+/vendor/
+/.jekyll-cache/
+/.jekyll-metadata
+/.sass-cache/
+/dist/
+/_site/
+*.log
+.DS_Store
